@@ -61,14 +61,21 @@ jobs:
             find . -mindepth 1 -not -path './.git*' -exec rm -rf {} +
           else
             git checkout --orphan update
+            git rm -rf . || true
           fi
 
-          cp artifacts/* .
+          cp -r artifacts/* .
 
-          git add -f IosevkaCustom.zip update.md
-          git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          git add -A
+          git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || echo "No changes to commit"
 
-          git push origin update --force
+          if ! git ls-remote --exit-code origin update >/dev/null 2>&1; then
+            echo "[INFO] Branch 'update' belum ada di remote, membuat baru..."
+            git push origin update
+          else
+            echo "[INFO] Branch 'update' sudah ada, melakukan force push..."
+            git push origin update --force
+          fi
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
