@@ -23,11 +23,14 @@ npm run build -- "$TARGET::IosevkaCustom"
 
 echo "[INFO] Prepare output..."
 cd ..
-rm -rf output
-mkdir -p output
-cp -r Iosevka/dist/IosevkaCustom/* output/
+
+mkdir -p artifacts
+
+cp -r Iosevka/dist/IosevkaCustom/* artifacts/
 
 rm -rf Iosevka/.git
 
 echo "[INFO] Compress output..."
-zip -r IosevkaCustom.zip output/*
+cd artifacts
+zip -r ../IosevkaCustom.zip ./*
+cd ..
