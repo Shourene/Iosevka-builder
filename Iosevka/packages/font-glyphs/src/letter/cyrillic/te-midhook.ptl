@@ -1,0 +1,52 @@
+$$include '../../meta/macros.ptl'
+
+import [mix linreg clamp fallback] from "@iosevka/util"
+
+glyph-module
+
+glyph-block Letter-Cyrillic-Te-MidHook : begin
+	glyph-block-import CommonShapes
+	glyph-block-import Common-Derivatives
+	glyph-block-import Letter-Shared-Shapes : MidHook
+	glyph-block-import Letter-Latin-Upper-T : TConfig
+
+	define [Shape df top pArc slabTop slabBot] : glyph-proc
+		local sw : Math.min df.mvs : AdviceStroke 2.75
+		local left : [mix df.leftSB df.rightSB 0.3] + OX
+
+		local xTopBarLeft : df.leftSB - SideJut
+		local xTopBarRightSym : 2 * left + [HSwToV sw] - xTopBarLeft
+		local xTopBarRight : Math.max xTopBarRightSym : mix left df.rightSB 0.475
+
+		include : VBar.l left 0 top sw
+		include : HBar.t xTopBarLeft xTopBarRight top sw
+		include : MidHook.general
+			left   -- (left + [HSwToV sw])
+			right  -- df.rightSB
+			top    -- (top * HBarPos + sw / 4)
+			ada    -- (ArchDepthA * pArc)
+			adb    -- (ArchDepthB * pArc)
+			sw     -- sw
+
+		if slabTop : begin
+			include : VSerif.dl  xTopBarLeft top VJut
+			include : VSerif.dr xTopBarRight top VJut
+
+		if slabBot : begin
+			include : intersection
+				MaskLeft : mix (left + [HSwToV sw]) (df.rightSB - [HSwToV sw]) 0.625
+				HSerif.mb (left + [HSwToV : 0.5 * sw]) 0 ([Math.max Jut : MidJutCenter * [Math.min 1 : df.adws * 0.875]] - [HSwToV : 0.5 * (Stroke - sw)])
+
+	foreach { suffix { adws doST doSB } } [Object.entries TConfig] : do
+		create-glyph "cyrl/TeMidHook.\(suffix)" : glyph-proc
+			local df : include : DivFrame adws
+			include : df.markSet.capDesc
+			include : Shape df CAP 1 doST doSB
+
+		create-glyph "cyrl/teMidHook.upright.\(suffix)" : glyph-proc
+			local df : include : DivFrame adws
+			include : df.markSet.p
+			include : Shape df XH (HBarPos ** 0.3) doST doSB
+
+	select-variant 'cyrl/TeMidHook' 0xA68A (follow -- 'T')
+	select-variant 'cyrl/teMidHook.upright' (follow -- 'T')
