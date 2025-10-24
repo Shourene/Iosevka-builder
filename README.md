@@ -1,6 +1,7 @@
 # Iosevka Font Builder
-[![RELEASE](https://img.shields.io/github/v/release/Shourene/Iosevka-builder?style=for-the-badge&color=blue)](https://github.com/Shourene/Iosevka-builder/releases)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/kotakarenedumps)
 [![BUILD](https://img.shields.io/github/actions/workflow/status/Shourene/Iosevka-builder/build.yml?style=for-the-badge&logo=github)](https://github.com/Shourene/revanced-root-module/actions/workflows/ci.yml)
+[![RELEASE](https://img.shields.io/github/v/release/Shourene/Iosevka-builder?style=for-the-badge&color=blue)](https://github.com/Shourene/Iosevka-builder/releases)
 [![LICENSE](https://img.shields.io/github/license/Shourene/Iosevka-builder?style=for-the-badge)](https://github.com/Shourene/Iosevka-builder/blob/main/LICENSE)
 
 This repo provides a script to build **Iosevka Custom Fonts** automatically with GitHub Actions.
