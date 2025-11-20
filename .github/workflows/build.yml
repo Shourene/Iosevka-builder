@@ -58,7 +58,8 @@ jobs:
 
           if git show-ref --verify --quiet refs/remotes/origin/update; then
             git checkout update --
-            find . -mindepth 1 -not -path './.git*' -exec rm -rf {} +
+            git rm -rf . || true
+            git clean -fdx
           else
             git checkout --orphan update
             git rm -rf . || true
