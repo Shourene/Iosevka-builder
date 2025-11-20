@@ -1,6 +1,6 @@
 ### Build Log
-- Build Time: 2025-11-20 20:12:05 UTC
-- Source Commit: 0473c869c2da6a0184789ebac367053e0038874f
+- Build Time: 2025-11-20 20:45:26 UTC
+- Source Commit: 81e2050e2668df2c3714a530e8d80aa1d04f36e5
 - Build Target: contents
 
 ### private-build-plans.toml
@@ -26,7 +26,7 @@ menu = 300
 css = 300
 
 [buildPlans.IosevkaCustom.widths.Normal]
-shape = 456
+shape = 548
 menu = 5
 css = "normal"
 
