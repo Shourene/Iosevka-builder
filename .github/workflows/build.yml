@@ -38,12 +38,20 @@ jobs:
       - name: Prepare artifacts
         run: |
           mkdir -p artifacts
-          echo "### Build Log" > artifacts/update.md
-          date -u +"%Y-%m-%d %H:%M:%S UTC" >> artifacts/update.md
-          echo -e "\n\`\`\`toml" >> artifacts/update.md
-          cat private-build-plans.toml >> artifacts/update.md
-          echo -e "\`\`\`" >> artifacts/update.md
 
+          # Save log
+          echo "### Build Log" > artifacts/update.md
+          echo "- Build Time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> artifacts/update.md
+          echo "- Source Commit: ${{ github.sha }}" >> artifacts/update.md
+          echo "- Build Target: ${{ github.event.inputs.build_target }}" >> artifacts/update.md
+          echo "" >> artifacts/update.md
+
+          echo "### private-build-plans.toml" >> artifacts/update.md
+          echo "\`\`\`toml" >> artifacts/update.md
+          cat private-build-plans.toml >> artifacts/update.md
+          echo "\`\`\`" >> artifacts/update.md
+
+          cp private-build-plans.toml artifacts/
           mv IosevkaCustom.zip artifacts/
 
       - name: Push build results to update branch
@@ -52,45 +60,32 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          echo "[INFO] Backing up artifacts before switching branches..."
           mkdir -p /tmp/artifacts
           cp -r artifacts/* /tmp/artifacts/
 
-          echo "[INFO] Fetch branch update..."
           git fetch origin update || true
 
           if git show-ref --verify --quiet refs/remotes/origin/update; then
-            echo "[INFO] Checkout branch update..."
             git checkout update
           else
-            echo "[INFO] Branch update not yet available, creating orphan..."
             git checkout --orphan update
           fi
 
-          echo "[INFO] Wiping all contents of the update branch..."
           git rm -rf . || true
           git clean -fdx
 
-          echo "[INFO] Copying artifacts into update branch..."
           cp -r /tmp/artifacts/* .
 
           git add -A
-          git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || echo "No changes to commit"
-
-          if ! git ls-remote --exit-code origin update >/dev/null 2>&1; then
-            echo "[INFO] First push for branch update..."
-            git push origin update
-          else
-            echo "[INFO] Force push update..."
-            git push origin update --force
-          fi
+          git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || true
+          git push origin update --force
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: artifacts/IosevkaCustom.zip
           tag_name: ${{ github.run_number }}
-          name: "Iosevka ${{ github.run_number }}"
+          name: "Iosevka ${github.run_number}"
           body_path: artifacts/update.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
