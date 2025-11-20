@@ -1,5 +1,5 @@
 ### Build Log
-2025-10-23 15:32:45 UTC
+2025-11-20 19:41:15 UTC
 
 ```toml
 [buildPlans.IosevkaCustom]
@@ -12,23 +12,18 @@ exportGlyphNames = false
   [buildPlans.IosevkaCustom.ligations]
   inherits = "dlig"
 
-[buildPlans.IosevkaCustom.weights.Light]
+[buildPlans.IosevkaCustom.weights.Regular]
 shape = 400
 menu = 400
 css = 400
 
-[buildPlans.IosevkaCustom.weights.Reguler]
-shape = 600
-menu = 600
-css = 600
-
-[buildPlans.IosevkaCustom.weights.Bold]
-shape = 800
-menu = 800
-css = 800
+[buildPlans.IosevkaCustom.weights.Light]
+shape = 300
+menu = 300
+css = 300
 
 [buildPlans.IosevkaCustom.widths.Normal]
-shape = 720
+shape = 456
 menu = 5
 css = "normal"
 
@@ -36,4 +31,11 @@ css = "normal"
 angle = 0
 shape = "upright"
 menu = "upright"
-css = "normal"```
+css = "normal"
+
+[buildPlans.IosevkaCustom.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+```
