@@ -52,6 +52,10 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
+          echo "[INFO] Backing up artifacts before switching branches..."
+          mkdir -p /tmp/artifacts
+          cp -r artifacts/* /tmp/artifacts/
+
           echo "[INFO] Fetch branch update..."
           git fetch origin update || true
 
@@ -63,12 +67,12 @@ jobs:
             git checkout --orphan update
           fi
 
-          echo "[INFO] Deleting the entire contents of the update branch..."
+          echo "[INFO] Wiping all contents of the update branch..."
           git rm -rf . || true
           git clean -fdx
 
-          echo "[INFO] Copying artifacts to the update branch..."
-          cp -r artifacts/* .
+          echo "[INFO] Copying artifacts into update branch..."
+          cp -r /tmp/artifacts/* .
 
           git add -A
           git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || echo "No changes to commit"
