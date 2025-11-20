@@ -1,5 +1,5 @@
 # Iosevka Font Builder
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/kotakarenedumps)
+[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/6WD7D9Xte6)
 [![BUILD](https://img.shields.io/github/actions/workflow/status/Shourene/Iosevka-builder/build.yml?style=for-the-badge&logo=github)](https://github.com/Shourene/revanced-root-module/actions/workflows/ci.yml)
 [![RELEASE](https://img.shields.io/github/v/release/Shourene/Iosevka-builder?style=for-the-badge&color=blue)](https://github.com/Shourene/Iosevka-builder/releases)
 [![LICENSE](https://img.shields.io/github/license/Shourene/Iosevka-builder?style=for-the-badge)](https://github.com/Shourene/Iosevka-builder/blob/main/LICENSE)
