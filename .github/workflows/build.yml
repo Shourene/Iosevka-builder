@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir -p artifacts
 
-          # Save log
+          # Log
           echo "### Build Log" > artifacts/update.md
           echo "- Build Time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> artifacts/update.md
           echo "- Source Commit: ${{ github.sha }}" >> artifacts/update.md
@@ -60,6 +60,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
+          # Backup for release
           mkdir -p /tmp/artifacts
           cp -r artifacts/* /tmp/artifacts/
 
@@ -80,12 +81,17 @@ jobs:
           git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || true
           git push origin update --force
 
+      - name: Restore artifacts for release
+        run: |
+          mkdir -p artifacts
+          cp -r /tmp/artifacts/* artifacts/
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: artifacts/IosevkaCustom.zip
           tag_name: ${{ github.run_number }}
-          name: "Iosevka ${github.run_number}"
+          name: "Iosevka ${{ github.run_number }}"
           body_path: artifacts/update.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
