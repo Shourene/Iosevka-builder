@@ -52,29 +52,32 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          rm -rf update
-
+          echo "[INFO] Fetch branch update..."
           git fetch origin update || true
 
           if git show-ref --verify --quiet refs/remotes/origin/update; then
-            git checkout update --
-            git rm -rf . || true
-            git clean -fdx
+            echo "[INFO] Checkout branch update..."
+            git checkout update
           else
+            echo "[INFO] Branch update not yet available, creating orphan..."
             git checkout --orphan update
-            git rm -rf . || true
           fi
 
+          echo "[INFO] Deleting the entire contents of the update branch..."
+          git rm -rf . || true
+          git clean -fdx
+
+          echo "[INFO] Copying artifacts to the update branch..."
           cp -r artifacts/* .
 
           git add -A
           git commit -m "Update build $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || echo "No changes to commit"
 
           if ! git ls-remote --exit-code origin update >/dev/null 2>&1; then
-            echo "[INFO] Branch 'update' belum ada di remote, membuat baru..."
+            echo "[INFO] First push for branch update..."
             git push origin update
           else
-            echo "[INFO] Branch 'update' sudah ada, melakukan force push..."
+            echo "[INFO] Force push update..."
             git push origin update --force
           fi
 
