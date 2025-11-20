@@ -9,7 +9,7 @@ This repo provides a script to build **Iosevka Custom Fonts** automatically with
 ## How To Use
 
 1. Fork this [repo](https://github.com/Shourene/Iosevka-builder/fork).
-2. Customize [`private-build-plans.toml`](../private-build-plans.toml) using the [Iosevka Customizer](https://typeof.net/Iosevka/customizer).
+2. Customize [`private-build-plans.toml`](./private-build-plans.toml) using the [Iosevka Customizer](https://typeof.net/Iosevka/customizer).
 3. Run the build [workflow](../../actions/workflows/build.yml).
    - Select the **build_target** according to what you want to build:
      - `contents` → TTF + Web Font
